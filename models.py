@@ -49,32 +49,32 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'User {self.email} has been added to the database'
 
-class Contact(db.Model):
+class Soda(db.Model):
     id = db.Column(db.String, primary_key = True)
     name = db.Column(db.String(150), nullable = False)
-    email = db.Column(db.String(200))
-    phone_number = db.Column(db.String(20))
-    address = db.Column(db.String(200))
+    brand = db.Column(db.String(200))
+    flavor = db.Column(db.String(20))
+    size = db.Column(db.String(200))
     user_token = db.Column(db.String, db.ForeignKey('user.token'), nullable = False)
 
-    def __init__(self,name,email,phone_number,address,user_token, id = ''):
+    def __init__(self,name,brand,flavor,size,user_token, id = ''):
         self.id = self.set_id()
         self.name = name
-        self.email = email
-        self.phone_number = phone_number
-        self.address = address
+        self.brand = brand
+        self.flavor = flavor
+        self.size = size
         self.user_token = user_token
 
 
     def __repr__(self):
-        return f'The following contact has been added to the phonebook: {self.name}'
+        return f'The following soda has been added to the soda inventory: {self.name}'
 
     def set_id(self):
         return (secrets.token_urlsafe())
 
-class ContactSchema(ma.Schema):
+class SodaSchema(ma.Schema):
     class Meta:
-        fields = ['id', 'name','email','phone_number', 'address']
+        fields = ['id', 'name','brand','flavor', 'size']
 
-contact_schema = ContactSchema()
-contacts_schema = ContactSchema(many=True)
+soda_schema = SodaSchema()
+sodas_schema = SodaSchema(many=True)
